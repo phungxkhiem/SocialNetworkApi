@@ -1,29 +1,32 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const userSchema = new Schema(
+const UserSchema = new Schema(
   {
     username: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
+      required: "Username is Required",
     },
+
     email: {
       type: String,
-      required: true,
       unique: true,
-      match: [/.+@.+\..+/, 'Must match an email address!'],
+      required: "Username is Required",
+      match: [/.+@.+\..+/],
     },
+
     thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Thought',
+        ref: "Thought",
       },
     ],
+
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
   },
@@ -35,10 +38,10 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.virtual('friendCount').get(function () {
+UserSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });
 
-const User = model('User', userSchema);
+const User = model("User", UserSchema);
 
 module.exports = User;
